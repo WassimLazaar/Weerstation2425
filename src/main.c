@@ -12,12 +12,9 @@ int main(void)
 {
 
 	while (1) {
-<<<<<<< HEAD
 		printk("main branch placeholder\n");
-
-=======
 		printk("een extra feature toegevoegd\n");
->>>>>>> multithreading
+		printk("een extra feature toegevoegd2\n");
 		printk("multithreading placeholder\n");
 		k_msleep(SLEEP_TIME_MS);
 	}
