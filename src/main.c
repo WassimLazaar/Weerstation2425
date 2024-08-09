@@ -4,17 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include <zephyr/kernel.h>
-#include <zephyr/device.h>
-#include <zephyr/drivers/gpio.h>
-#include <zephyr/sys/printk.h>
-#include <zephyr/sys/__assert.h>
-#include <string.h>
 
 
+#include "Weerstation.h"
 
-#include <zephyr/devicetree.h>
-#include <zephyr/drivers/sensor.h>
+
 
 
 
