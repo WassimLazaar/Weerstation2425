@@ -13,7 +13,7 @@ int main(void)
 {
 
 	while (1) {
-		
+		printk("een extra feature toegevoegd\n");
 		printk("multithreading placeholder\n");
 		k_msleep(SLEEP_TIME_MS);
 	}
