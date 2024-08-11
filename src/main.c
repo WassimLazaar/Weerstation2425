@@ -128,6 +128,7 @@ static const struct led led3 = {
 void blink0(void)
 {
 	blink(&led0, 1000, 0);
+	printk("ik voer nu blink0 uit\n");
 }
 
 void blink1(void)
