@@ -4,17 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-#include <zephyr/kernel.h>
-#include <zephyr/device.h>
-#include <zephyr/drivers/gpio.h>
-#include <zephyr/sys/printk.h>
-#include <zephyr/sys/__assert.h>
-#include <string.h>
 
 
+#include "Weerstation.h"
 
-#include <zephyr/devicetree.h>
-#include <zephyr/drivers/sensor.h>
+
 
 
 
@@ -162,6 +156,16 @@ void blink3(void)
 		k_free(rx_data);
 	}
 } 
+
+void sensor(void)
+{
+
+while(1){
+
+	
+}
+
+}
 /////////////////////////////////////////////////////////////////////////////////
 
 
@@ -184,6 +188,9 @@ K_THREAD_DEFINE(blink2_id, STACKSIZE, blink2, NULL, NULL, NULL,
 
 
  K_THREAD_DEFINE(uart_out_id, STACKSIZE, uart_out, NULL, NULL, NULL,
+		PRIORITY, 0, 0); 
+
+ K_THREAD_DEFINE(sensor_id, STACKSIZE, sensor, NULL, NULL, NULL,
 		PRIORITY, 0, 0); 
 //////////////////////////////////////////////////////////////////////////////////
 
