@@ -20,35 +20,8 @@
 
 #define LED0_NODE DT_ALIAS(led0)
 #define LED1_NODE DT_ALIAS(led1)
-#define LED2_NODE DT_ALIAS(led2)
-#define LED3_NODE DT_ALIAS(led3)
 
 
-///////////////////////////////////////////////////////////////////////////////////////
-#if !DT_NODE_HAS_STATUS(LED0_NODE, okay)
-#error "Unsupported board: led0 devicetree alias is not defined"
-#endif
-
- #if !DT_NODE_HAS_STATUS(LED1_NODE, okay)
-#error "Unsupported board: led1 devicetree alias is not defined"
-#endif 
-
-#if !DT_NODE_HAS_STATUS(LED2_NODE, okay)
-#error "Unsupported board: led2 devicetree alias is not defined"
-#endif 
-
-#if !DT_NODE_HAS_STATUS(LED3_NODE, okay)
-#error "Unsupported board: led3 devicetree alias is not defined"
-#endif 
-//////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-/*
- * Get a device structure from a devicetree node with compatible
- * "bosch,bme280". (If there are multiple, just pick one.)
- */
 static const struct device *get_bme280_device(void)
 {
 	const struct device *const dev = DEVICE_DT_GET_ANY(bosch_bme280);
@@ -69,6 +42,22 @@ static const struct device *get_bme280_device(void)
 	printk("Found device \"%s\", getting sensor data\n", dev->name);
 	return dev;
 }
+///////////////////////////////////////////////////////////////////////////////////////
+#if !DT_NODE_HAS_STATUS(LED0_NODE, okay)
+#error "Unsupported board: led0 devicetree alias is not defined"
+#endif
+
+ #if !DT_NODE_HAS_STATUS(LED1_NODE, okay)
+#error "Unsupported board: led1 devicetree alias is not defined"
+#endif 
+
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
 
 /////////////////////////////////////////////////////////////////////////////////////
  struct printk_data_t {
@@ -97,15 +86,7 @@ static const struct led led1 = {
 	.num = 1,
 }; 
 
-static const struct led led2 = {
-	.spec = GPIO_DT_SPEC_GET_OR(LED2_NODE, gpios, {0}),
-	.num = 2,
-}; 
 
-static const struct led led3 = {
-	.spec = GPIO_DT_SPEC_GET_OR(LED3_NODE, gpios, {0}),
-	.num = 3,
-}; 
 ///////////////////////////////////////////////////////////////////////////////////
 
 
@@ -160,15 +141,7 @@ void blink1(void)
 	blink(&led1,750, 1);
 } 
 
-void blink2(void)
-{
-	blink(&led2, 500, 2);
-} 
 
-void blink3(void)
-{
-	blink(&led3, 250, 3);
-} 
 
 
  void uart_out(void)
@@ -184,7 +157,7 @@ void blink3(void)
 
 void sensor(void)
 {
-const struct device *dev = get_bme280_device();
+	const struct device *dev = get_bme280_device();
 
 	
 while(1){
@@ -204,7 +177,6 @@ struct sensor_value temp, press, humidity;
 }
 
 }
-/////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -217,12 +189,6 @@ K_THREAD_DEFINE(blink0_id, STACKSIZE, blink0, NULL, NULL, NULL,
 K_THREAD_DEFINE(blink1_id, STACKSIZE, blink1, NULL, NULL, NULL,
 		PRIORITY, 0, 0); 
 
-
-
-K_THREAD_DEFINE(blink2_id, STACKSIZE, blink2, NULL, NULL, NULL,
-		PRIORITY, 0, 0);
- K_THREAD_DEFINE(blink3_id, STACKSIZE, blink3, NULL, NULL, NULL,
-		PRIORITY, 0, 0); 
 
 
  K_THREAD_DEFINE(uart_out_id, STACKSIZE, uart_out, NULL, NULL, NULL,
