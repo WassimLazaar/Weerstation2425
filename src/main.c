@@ -21,7 +21,7 @@
 #define LED0_NODE DT_ALIAS(led0)
 #define LED1_NODE DT_ALIAS(led1)
 
-
+volatile bool temp_buiten = false;
 static const struct device *get_bme280_device(void)
 {
 	const struct device *const dev = DEVICE_DT_GET_ANY(bosch_bme280);
@@ -111,6 +111,8 @@ static const struct led led1 = {
 	}
 
 	while (1) {
+
+		if(temp_buiten){
 		gpio_pin_set(spec->port, spec->pin, cnt % 2);
 
 		 struct printk_data_t tx_data = { .led = id, .cnt = cnt };
@@ -123,8 +125,12 @@ static const struct led led1 = {
 
 		 k_fifo_put(&printk_fifo, mem_ptr);
 
-		k_msleep(sleep_ms);
+		
 		 cnt++;
+		} else {
+			gpio_pin_set(spec->port, spec->pin, 0);
+		}
+		k_msleep(sleep_ms);
 	}
 } 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -133,12 +139,12 @@ static const struct led led1 = {
 ///////////////////////////////////////////////////////////////////////////////////////
 void blink0(void)
 {
-	blink(&led0, 1000, 0);
+	blink(&led0, 100, 0);
 }
 
 void blink1(void)
 {
-	blink(&led1,750, 1);
+	blink(&led1,100, 1);
 } 
 
 
@@ -171,6 +177,18 @@ struct sensor_value temp, press, humidity;
 		printk("temp: %d.%06d; press: %d.%06d; humidity: %d.%06d\n",
 		      temp.val1, temp.val2, press.val1, press.val2,
 		      humidity.val1, humidity.val2);
+
+
+
+        if (temp.val1 >= 22 && temp.val1 < 25 ) {
+            temp_buiten = true;
+        } 
+		else {
+            temp_buiten = false;
+        }
+
+
+
 
 		k_sleep(K_MSEC(1000));
 
