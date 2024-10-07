@@ -1,0 +1,25 @@
+# ninja log v6
+31	269	7500114716080155	Qt_code_autogen/timestamp	e6d5472221cb3200
+31	269	7500114716080155	Qt_code_autogen/mocs_compilation.cpp	e6d5472221cb3200
+271	6813	7500114718474070	CMakeFiles/Qt_code.dir/mainwindow.cpp.obj	d7c5d298243fc34e
+4509	14609	7500098078584134	CMakeFiles/Qt_code.dir/Qt_code_autogen/mocs_compilation.cpp.obj	2edbd2c8c6b8198
+31	269	7500114716080155	C:/Users/emymu/Documents/Weerstation_blok5/Project_Weerstasie_SWEN/Qt_code/build/Desktop_Qt_6_4_1_MinGW_64_bit-Debug/Qt_code_autogen/timestamp	e6d5472221cb3200
+31	269	7500114716080155	C:/Users/emymu/Documents/Weerstation_blok5/Project_Weerstasie_SWEN/Qt_code/build/Desktop_Qt_6_4_1_MinGW_64_bit-Debug/Qt_code_autogen/mocs_compilation.cpp	e6d5472221cb3200
+4522	14604	7500098078713569	CMakeFiles/Qt_code.dir/main.cpp.obj	2603969ff05bf9c
+6980	7267	7500114785562344	Qt_code.exe	b5b4e8d95e1dd12e
+276	6980	7500114718536036	CMakeFiles/Qt_code.dir/graphview.cpp.obj	797e974bd5e3fe8c
+13	1337	7499972207533034	build.ninja	ba52b09b6725e363
+35	272	7500115383514373	Qt_code_autogen/timestamp	e6d5472221cb3200
+35	272	7500115383514373	Qt_code_autogen/mocs_compilation.cpp	e6d5472221cb3200
+35	272	7500115383514373	C:/Users/emymu/Documents/Weerstation_blok5/Project_Weerstasie_SWEN/Qt_code/build/Desktop_Qt_6_4_1_MinGW_64_bit-Debug/Qt_code_autogen/timestamp	e6d5472221cb3200
+35	272	7500115383514373	C:/Users/emymu/Documents/Weerstation_blok5/Project_Weerstasie_SWEN/Qt_code/build/Desktop_Qt_6_4_1_MinGW_64_bit-Debug/Qt_code_autogen/mocs_compilation.cpp	e6d5472221cb3200
+274	7104	7500115385891719	CMakeFiles/Qt_code.dir/mainwindow.cpp.obj	d7c5d298243fc34e
+279	7347	7500115385944548	CMakeFiles/Qt_code.dir/graphview.cpp.obj	797e974bd5e3fe8c
+7347	7637	7500115456556395	Qt_code.exe	b5b4e8d95e1dd12e
+33	272	7500117204813279	Qt_code_autogen/timestamp	e6d5472221cb3200
+33	272	7500117204813279	Qt_code_autogen/mocs_compilation.cpp	e6d5472221cb3200
+33	272	7500117204813279	C:/Users/emymu/Documents/Weerstation_blok5/Project_Weerstasie_SWEN/Qt_code/build/Desktop_Qt_6_4_1_MinGW_64_bit-Debug/Qt_code_autogen/timestamp	e6d5472221cb3200
+33	272	7500117204813279	C:/Users/emymu/Documents/Weerstation_blok5/Project_Weerstasie_SWEN/Qt_code/build/Desktop_Qt_6_4_1_MinGW_64_bit-Debug/Qt_code_autogen/mocs_compilation.cpp	e6d5472221cb3200
+273	6733	7500117207207261	CMakeFiles/Qt_code.dir/mainwindow.cpp.obj	d7c5d298243fc34e
+281	6913	7500117207207261	CMakeFiles/Qt_code.dir/graphview.cpp.obj	797e974bd5e3fe8c
+6913	7212	7500117273582859	Qt_code.exe	b5b4e8d95e1dd12e

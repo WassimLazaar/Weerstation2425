@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-accc59d087a7e295dcc1.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Qt_code",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Qt_code::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Qt_code-Debug-80aebf3a21f2f568ac00.json",
+					"name" : "Qt_code",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Qt_code_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Qt_code_autogen-Debug-e06c0eafba6e73fbe707.json",
+					"name" : "Qt_code_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Qt_code_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Qt_code_autogen_timestamp_deps-Debug-3cc6d100832700593eaa.json",
+					"name" : "Qt_code_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/emymu/Documents/Weerstation_blok5/Project_Weerstasie_SWEN/Qt_code/build/Desktop_Qt_6_4_1_MinGW_64_bit-Debug",
+		"source" : "C:/Users/emymu/Documents/Weerstation_blok5/Project_Weerstasie_SWEN/Qt_code"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}
