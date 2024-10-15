@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/emymu/Documents/Weerstation_blok5/Project_Weerstasie_SWEN/Qt_code
+# Install script for directory: C:/Users/emymu/zephyrproject/zephyr/samples/Weerstation2425/Qt_code
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -38,7 +38,7 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "C:/Users/emymu/Documents/Weerstation_blok5/Project_Weerstasie_SWEN/Qt_code/build/Desktop_Qt_6_4_1_MinGW_64_bit-Debug/Qt_code.exe")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "C:/Users/emymu/zephyrproject/zephyr/samples/Weerstation2425/Qt_code/build/Desktop_Qt_6_4_1_MinGW_64_bit-Debug/Qt_code.exe")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/Qt_code.exe" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/Qt_code.exe")
     if(CMAKE_INSTALL_DO_STRIP)
@@ -62,6 +62,6 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-  file(WRITE "C:/Users/emymu/Documents/Weerstation_blok5/Project_Weerstasie_SWEN/Qt_code/build/Desktop_Qt_6_4_1_MinGW_64_bit-Debug/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "C:/Users/emymu/zephyrproject/zephyr/samples/Weerstation2425/Qt_code/build/Desktop_Qt_6_4_1_MinGW_64_bit-Debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

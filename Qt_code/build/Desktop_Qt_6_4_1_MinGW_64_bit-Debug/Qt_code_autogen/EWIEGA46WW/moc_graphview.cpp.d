@@ -1,5 +1,5 @@
-C:/Users/emymu/Documents/Weerstation_blok5/Project_Weerstasie_SWEN/Qt_code/build/Desktop_Qt_6_4_1_MinGW_64_bit-Debug/Qt_code_autogen/EWIEGA46WW/moc_graphview.cpp: C:/Users/emymu/Documents/Weerstation_blok5/Project_Weerstasie_SWEN/Qt_code/graphview.h \
-  C:/Users/emymu/Documents/Weerstation_blok5/Project_Weerstasie_SWEN/Qt_code/build/Desktop_Qt_6_4_1_MinGW_64_bit-Debug/Qt_code_autogen/moc_predefs.h \
+C:/Users/emymu/zephyrproject/zephyr/samples/Weerstation2425/Qt_code/build/Desktop_Qt_6_4_1_MinGW_64_bit-Debug/Qt_code_autogen/EWIEGA46WW/moc_graphview.cpp: C:/Users/emymu/zephyrproject/zephyr/samples/Weerstation2425/Qt_code/graphview.h \
+  C:/Users/emymu/zephyrproject/zephyr/samples/Weerstation2425/Qt_code/build/Desktop_Qt_6_4_1_MinGW_64_bit-Debug/Qt_code_autogen/moc_predefs.h \
   C:/Qt/6.4.1/mingw_64/include/QtCharts/QAbstractAxis \
   C:/Qt/6.4.1/mingw_64/include/QtCharts/QAbstractBarSeries \
   C:/Qt/6.4.1/mingw_64/include/QtCharts/QAbstractSeries \

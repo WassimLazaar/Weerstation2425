@@ -21,6 +21,7 @@ public:
     explicit GraphView(QWidget *parent = nullptr);
     ~GraphView();
 
+
 private:
     Ui::GraphView *ui;
     QSqlDatabase db;

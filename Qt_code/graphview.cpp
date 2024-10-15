@@ -16,49 +16,53 @@ GraphView::GraphView(QWidget *parent)
     db.setDatabaseName("weerstation");
 
 
-    // creating a line chart:
-    QLineSeries *series = new QLineSeries();
+    // creating a series for data:
+    QLineSeries *tempSeries = new QLineSeries();
+    QLineSeries *humSeries = new QLineSeries();
+    QLineSeries *presSeries = new QLineSeries();
 
 
-    // getting values from database:
+    // getting values from database and adding to series:
     db.open();
 
     QDateTime time;
     QSqlQuery query;
-    query.exec("select ID, TEMPERATURE, HUMIDITY, PRESSURE, TIMESTAMP from tbldata ;");
+    query.exec("select TIMESTAMP, TEMPERATURE, HUMIDITY, PRESSURE from tbldata ;");
     while (query.next())
     {
-       /* time.setDate(query.value(4).toDateTime().date());
-        time.setTime(query.value(4).toDateTime().time());*/
-        time = query.value(4).toDateTime();
-        qInfo() << time ;
-        series->append(time.toMSecsSinceEpoch(),query.value(1).toFloat());
-       // qInfo() << query.value(4).toString();
-       // qInfo() << query.value(4).toDateTime();
-        //qInfo() << query.value(4).toDateTime().date();
+        time = query.value(0).toDateTime();
+        tempSeries->append(time.toMSecsSinceEpoch(),query.value(1).toFloat());
+        humSeries->append(time.toMSecsSinceEpoch(),query.value(2).toFloat());
+        presSeries->append(time.toMSecsSinceEpoch(),query.value(3).toFloat());
     }
-
-    auto *axisx = new QDateTimeAxis;
-    axisx->setFormat("dd.MM.yyyy hh:mm:ss");
-    auto *axisy = new QValueAxis;
 
     db.close();
 
-    /*series->append(0,0);
-    series->append(1,8);
-    series->append(2,4);
-    series->append(7,2);*/
+
+    // displaying chart:
+    QDateTimeAxis *axisx = new QDateTimeAxis;
+    axisx->setFormat("dd.MM.yyyy hh:mm:ss");
+    QValueAxis *axisTemp = new QValueAxis;
+    QValueAxis *axisHum = new QValueAxis;
+    QValueAxis *axisPres = new QValueAxis;
 
     QChart *chart = new QChart();
-    chart->addSeries(series);
-    chart->legend()->hide();
-    //chart->createDefaultAxes();
+    chart->addSeries(tempSeries);
+    chart->addSeries(humSeries);
+    chart->addSeries((presSeries));
+    //chart->legend()->hide();
 
     chart->addAxis(axisx,Qt::AlignBottom);
-    series->attachAxis(axisx);
+    tempSeries->attachAxis(axisx);
+    humSeries->attachAxis(axisx);
+    presSeries->attachAxis(axisx);
 
-    chart->addAxis(axisy,Qt::AlignLeft);
-    series->attachAxis(axisy);
+    chart->addAxis(axisTemp,Qt::AlignLeft);
+    chart->addAxis(axisHum,Qt::AlignLeft);
+    chart->addAxis(axisPres,Qt::AlignLeft);
+    tempSeries->attachAxis(axisTemp);
+    humSeries->attachAxis(axisHum);
+    presSeries->attachAxis(axisPres);
 
     QChartView *chartview = new QChartView(chart);
     chartview->setParent(ui->horizontalFrame);
