@@ -7,7 +7,7 @@
 #include <QtCharts/QLineSeries>
 #include <QtSql>
 #include <QDateTime>
-//#include <QAbstractAxis>
+
 
 namespace Ui {
 class GraphView;
@@ -21,10 +21,17 @@ public:
     explicit GraphView(QWidget *parent = nullptr);
     ~GraphView();
 
+protected:
+   void keyPressEvent(QKeyEvent *event);
 
-private:
+
+ private slots:
+   void on_pushButton_clicked();
+
+ private:
     Ui::GraphView *ui;
     QSqlDatabase db;
+    QChart *chart;
 };
 
 #endif // GRAPHVIEW_H

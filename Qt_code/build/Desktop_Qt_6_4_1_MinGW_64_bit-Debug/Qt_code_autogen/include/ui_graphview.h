@@ -14,6 +14,7 @@
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QPushButton>
 
 QT_BEGIN_NAMESPACE
 
@@ -22,6 +23,7 @@ class Ui_GraphView
 public:
     QFrame *horizontalFrame;
     QHBoxLayout *horizontalLayout;
+    QPushButton *pushButton;
 
     void setupUi(QDialog *GraphView)
     {
@@ -37,9 +39,12 @@ public:
         GraphView->setMaximumSize(QSize(800, 600));
         horizontalFrame = new QFrame(GraphView);
         horizontalFrame->setObjectName("horizontalFrame");
-        horizontalFrame->setGeometry(QRect(10, 10, 781, 581));
+        horizontalFrame->setGeometry(QRect(10, 10, 781, 551));
         horizontalLayout = new QHBoxLayout(horizontalFrame);
         horizontalLayout->setObjectName("horizontalLayout");
+        pushButton = new QPushButton(GraphView);
+        pushButton->setObjectName("pushButton");
+        pushButton->setGeometry(QRect(10, 570, 91, 29));
 
         retranslateUi(GraphView);
 
@@ -49,6 +54,7 @@ public:
     void retranslateUi(QDialog *GraphView)
     {
         GraphView->setWindowTitle(QCoreApplication::translate("GraphView", "Grafiek View", nullptr));
+        pushButton->setText(QCoreApplication::translate("GraphView", "reset zoom", nullptr));
     } // retranslateUi
 
 };

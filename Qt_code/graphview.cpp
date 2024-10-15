@@ -7,7 +7,6 @@ GraphView::GraphView(QWidget *parent)
 {
     ui->setupUi(this);
 
-
     //setup database
     db = QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName("localhost");
@@ -54,7 +53,7 @@ GraphView::GraphView(QWidget *parent)
     axisPres->setLinePenColor(QColorConstants::Blue);
 
     // connecting series to chart:
-    QChart *chart = new QChart();
+    chart = new QChart();
     chart->addSeries(tempSeries);
     chart->addSeries(humSeries);
     chart->addSeries((presSeries));
@@ -83,7 +82,41 @@ GraphView::GraphView(QWidget *parent)
     chartview->setParent(ui->horizontalFrame);
 }
 
+
+// scrolling and zooming:
+void GraphView::keyPressEvent(QKeyEvent *event)
+{
+	switch (event->key()){
+	case Qt::Key_Plus:
+		chart->zoomIn();
+		break;
+	case Qt::Key_Minus:
+		chart->zoomOut();
+		break;
+		//![1]
+	case Qt::Key_A:
+		//qInfo() << "left";
+		chart->scroll(-10, 0);
+		break;
+	case Qt::Key_D:
+		chart->scroll(10, 0);
+		break;
+	case Qt::Key_W:
+		chart->scroll(0, 10);
+		break;
+	case Qt::Key_S:
+		chart->scroll(0, -10);
+		break;
+	}
+}
+
 GraphView::~GraphView()
 {
     delete ui;
 }
+
+void GraphView::on_pushButton_clicked()
+{
+        chart->zoomReset();
+}
+

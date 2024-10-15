@@ -37,10 +37,23 @@
      <x>10</x>
      <y>10</y>
      <width>781</width>
-     <height>581</height>
+     <height>511</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout"/>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>550</y>
+     <width>91</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>reset zoom</string>
+   </property>
   </widget>
  </widget>
  <resources/>
