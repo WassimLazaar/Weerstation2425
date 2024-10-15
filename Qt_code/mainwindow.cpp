@@ -41,6 +41,12 @@ void MainWindow::on_ButtonAll_clicked()
     model->setTable("tbldata");
     model->select();
 
+    //set column names:
+    model->setHeaderData(1,Qt::Horizontal,"TEMPERATUUR");
+    model->setHeaderData(2,Qt::Horizontal,"LUCHTVOCHTIGHEID");
+    model->setHeaderData(3,Qt::Horizontal,"LUCHTDRUK");
+    model->setHeaderData(4,Qt::Horizontal,"TIJDSTIP");
+
     ui->tableView->setModel(model);
     ui->tableView->resizeColumnsToContents();
     db.close();
@@ -54,6 +60,12 @@ void MainWindow::on_ButtonLatest_clicked()
     model->setTable("tbldata");
     model->setFilter("TIMESTAMP=(SELECT MAX(TIMESTAMP)FROM tbldata)");
     model->select();
+
+    //set column names:
+    model->setHeaderData(1,Qt::Horizontal,"TEMPERATUUR");
+    model->setHeaderData(2,Qt::Horizontal,"LUCHTVOCHTIGHEID");
+    model->setHeaderData(3,Qt::Horizontal,"LUCHTDRUK");
+    model->setHeaderData(4,Qt::Horizontal,"TIJDSTIP");
 
     ui->tableView->setModel(model);
     ui->tableView->resizeColumnsToContents();

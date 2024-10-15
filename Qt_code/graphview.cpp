@@ -58,7 +58,12 @@ GraphView::GraphView(QWidget *parent)
     chart->addSeries(tempSeries);
     chart->addSeries(humSeries);
     chart->addSeries((presSeries));
-    //chart->legend()->hide();
+    chart->legend()->setAlignment(Qt::AlignBottom);
+
+    // set series names:
+    tempSeries->setName("temperatuur");
+    humSeries->setName("luchtvochtigheid");
+    presSeries->setName("luchtdruk");
 
     // connecting axes:
     chart->addAxis(axisx,Qt::AlignBottom);
