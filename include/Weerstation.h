@@ -19,7 +19,7 @@
 
 //alle uart defines
 //#define UART_DEVICE_NODE DT_CHOSEN(zephyr_shell_uart)
-#define UART_DEVICE_NODE DT_NODELABEL(usart1)
+//#define UART_DEVICE_NODE DT_NODELABEL(usart1)
 //#define MSG_SIZE 200
 
 
