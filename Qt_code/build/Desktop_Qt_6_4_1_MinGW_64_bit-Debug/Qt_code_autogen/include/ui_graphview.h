@@ -14,6 +14,7 @@
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QPushButton>
 
 QT_BEGIN_NAMESPACE
@@ -24,6 +25,8 @@ public:
     QFrame *horizontalFrame;
     QHBoxLayout *horizontalLayout;
     QPushButton *pushButton;
+    QLabel *label;
+    QLabel *label_2;
 
     void setupUi(QDialog *GraphView)
     {
@@ -39,12 +42,18 @@ public:
         GraphView->setMaximumSize(QSize(800, 600));
         horizontalFrame = new QFrame(GraphView);
         horizontalFrame->setObjectName("horizontalFrame");
-        horizontalFrame->setGeometry(QRect(10, 10, 781, 551));
+        horizontalFrame->setGeometry(QRect(10, 10, 781, 511));
         horizontalLayout = new QHBoxLayout(horizontalFrame);
         horizontalLayout->setObjectName("horizontalLayout");
         pushButton = new QPushButton(GraphView);
         pushButton->setObjectName("pushButton");
-        pushButton->setGeometry(QRect(10, 570, 91, 29));
+        pushButton->setGeometry(QRect(10, 550, 91, 29));
+        label = new QLabel(GraphView);
+        label->setObjectName("label");
+        label->setGeometry(QRect(630, 540, 161, 20));
+        label_2 = new QLabel(GraphView);
+        label_2->setObjectName("label_2");
+        label_2->setGeometry(QRect(630, 560, 151, 20));
 
         retranslateUi(GraphView);
 
@@ -55,6 +64,8 @@ public:
     {
         GraphView->setWindowTitle(QCoreApplication::translate("GraphView", "Grafiek View", nullptr));
         pushButton->setText(QCoreApplication::translate("GraphView", "reset zoom", nullptr));
+        label->setText(QCoreApplication::translate("GraphView", "WASD om te bewegen", nullptr));
+        label_2->setText(QCoreApplication::translate("GraphView", "+ en - om te zoomen", nullptr));
     } // retranslateUi
 
 };

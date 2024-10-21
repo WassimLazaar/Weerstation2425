@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -13,25 +14,14 @@ MainWindow::MainWindow(QWidget *parent)
     db.setUserName("root");
     db.setPassword("");
     db.setDatabaseName("weerstation");
-    //db.open();
-
-    // display latest measurement:
-    /*model = new QSqlTableModel(this);
-    model->setTable("tbldata");
-    model->setFilter("TIMESTAMP=(SELECT MAX(TIMESTAMP)FROM tbldata)");
-    model->select();
-
-    ui->tableView->setModel(model);
-    ui->tableView->resizeColumnsToContents();*/
 }
+
 
 MainWindow::~MainWindow()
 {
-    // close database:
-    //db.close();
-
     delete ui;
 }
+
 
 // button for showing all data
 void MainWindow::on_ButtonAll_clicked()
@@ -52,13 +42,14 @@ void MainWindow::on_ButtonAll_clicked()
     db.close();
 }
 
+
 // button for showing latest data
 void MainWindow::on_ButtonLatest_clicked()
 {
     db.open();
     model = new QSqlTableModel(this);
     model->setTable("tbldata");
-    model->setFilter("TIMESTAMP=(SELECT MAX(TIMESTAMP)FROM tbldata)");
+    model->setFilter("TIME_STAMP=(SELECT MAX(TIME_STAMP)FROM tbldata)");
     model->select();
 
     //set column names:

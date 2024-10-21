@@ -26,7 +26,7 @@ GraphView::GraphView(QWidget *parent)
 
     QDateTime time;
     QSqlQuery query;
-    query.exec("select TIMESTAMP, TEMPERATURE, HUMIDITY, PRESSURE from tbldata ;");
+    query.exec("select TIME_STAMP, TEMPERATURE, HUMIDITY, PRESSURE from tbldata ;");
     while (query.next())
     {
         time = query.value(0).toDateTime();
@@ -43,6 +43,7 @@ GraphView::GraphView(QWidget *parent)
     QValueAxis *axisTemp = new QValueAxis;
     QValueAxis *axisHum = new QValueAxis;
     QValueAxis *axisPres = new QValueAxis;
+
 
     // choosing colors:
     tempSeries->setColor(QColorConstants::Red);
@@ -110,13 +111,16 @@ void GraphView::keyPressEvent(QKeyEvent *event)
 	}
 }
 
+
 GraphView::~GraphView()
 {
     delete ui;
 }
 
+
+// reset zoom
 void GraphView::on_pushButton_clicked()
 {
-        chart->zoomReset();
+    chart->zoomReset();
 }
 
