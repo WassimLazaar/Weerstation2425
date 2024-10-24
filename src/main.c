@@ -18,18 +18,28 @@
 
 static const struct device *const uart_dev = DEVICE_DT_GET(UART_DEVICE_NODE); //Store in in variable uart_dev
 
-volatile float temperature;
-volatile float humidity;
-volatile float pressure;
+volatile double temperature;
+volatile double humidity;
+volatile double pressure;
 
 
 /////////////////////////////////code voor het buffer gedeelte//////////////////////////////////////////////////
-#define BUFFER_SIZE 1440  // Voor 24 uur bij 1 meting per minuut
+#define BUFFER_SIZE 200  // Voor 24 uur bij 1 meting per minuut
+
+//Function to send characters over UART
+void print_uart(char *buf)
+{
+	int msg_len = strlen(buf);
+
+	for (int i = 0; i < msg_len; i++) {
+		uart_poll_out(uart_dev, buf[i]);
+	}
+}
 
 struct Measurement {
-    float temperature;
-    float pressure;
-    float humidity;
+    double temperature;
+    double pressure;
+    double humidity;
     uint32_t timestamp;  // Voor het opslaan van het tijdstip
 };
 
@@ -37,7 +47,7 @@ struct Measurement databuffer[BUFFER_SIZE];
 int buffer_index = 0;  // Huidige positie in de buffer
 
 // Functie om metingen toe te voegen aan de buffer
-void add_measurement(float temp, float press, float hum, uint32_t time) {
+void add_measurement(double temp, double press, double hum, uint32_t time) {
     databuffer[buffer_index].temperature = temp;
     databuffer[buffer_index].pressure = press;
     databuffer[buffer_index].humidity = hum;
@@ -122,16 +132,6 @@ static const struct device *get_bme280_device(void)
 	return dev;
 }
 
-//Function to send characters over UART
-void print_uart(char *buf)
-{
-	int msg_len = strlen(buf);
-
-	for (int i = 0; i < msg_len; i++) {
-		uart_poll_out(uart_dev, buf[i]);
-	}
-}
-
 void esp(void)
 {
 	// int temperature = 70;
@@ -155,10 +155,10 @@ void esp(void)
 		k_sleep(K_MSEC(2000));
 
 		//INIT data that needs to be posted to webserver (variables) 
-		int post_data_length = snprintf(NULL, 0, "api_key=%s&temperature=%d&pressure=%d&humidity=%d", 
+		int post_data_length = snprintf(NULL, 0, "api_key=%s&temperature=%.2f&pressure=%.2f&humidity=%.2f", 
 										api_key, temperature, pressure, humidity) + 1; //Get length of the message + 1 for /0
 		char* buff_post_data = (char*) calloc(post_data_length, sizeof(char)); //Allocate space for the buffer
-		snprintf(buff_post_data, post_data_length, "api_key=%s&temperature=%d&pressure=%d&humidity=%d", api_key, temperature, pressure, humidity); //store the message in buffer
+		snprintf(buff_post_data, post_data_length, "api_key=%s&temperature=%.2f&pressure=%.2f&humidity=%.2f", api_key, temperature, pressure, humidity); //store the message in buffer
 
 		//INIT content length in REQUEST string 
 		int content_length = snprintf(NULL, 0, "Content-Length: %d\r\n", post_data_length) + 1; //Get length of the string + 1 for /0
@@ -195,7 +195,7 @@ void esp(void)
 		// Verstuur de gebufferde data
 		send_buffered_data();
 
-		k_sleep(K_MSEC(60000));
+		k_sleep(K_MSEC(2000));
 	}
 	print_uart("AT+CIPCLOSE\r\n"); //After program end connection
 }
@@ -223,7 +223,7 @@ void sensor(void)
 		add_measurement(temperature, pressure, humidity, current_time);
 
 	
-		k_sleep(K_MSEC(60000));
+		k_sleep(K_MSEC(2000));
 	}
 }
 
