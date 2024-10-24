@@ -18,9 +18,88 @@
 
 static const struct device *const uart_dev = DEVICE_DT_GET(UART_DEVICE_NODE); //Store in in variable uart_dev
 
-volatile int temperature;
-volatile int humidity;
-volatile int pressure;
+volatile float temperature;
+volatile float humidity;
+volatile float pressure;
+
+
+/////////////////////////////////code voor het buffer gedeelte//////////////////////////////////////////////////
+#define BUFFER_SIZE 1440  // Voor 24 uur bij 1 meting per minuut
+
+struct Measurement {
+    float temperature;
+    float pressure;
+    float humidity;
+    uint32_t timestamp;  // Voor het opslaan van het tijdstip
+};
+
+struct Measurement databuffer[BUFFER_SIZE];
+int buffer_index = 0;  // Huidige positie in de buffer
+
+// Functie om metingen toe te voegen aan de buffer
+void add_measurement(float temp, float press, float hum, uint32_t time) {
+    databuffer[buffer_index].temperature = temp;
+    databuffer[buffer_index].pressure = press;
+    databuffer[buffer_index].humidity = hum;
+    databuffer[buffer_index].timestamp = time;
+    
+    // Update de buffer index, en wrap rond als we het maximale aantal bereiken (ringbuffer)
+    buffer_index = (buffer_index + 1) % BUFFER_SIZE;
+}
+
+void send_buffered_data(void) {
+    const char* api_key = "ESPIsAFunDevice12345";
+
+    // Loop door de buffer en verstuur alle metingen
+    for (int i = 0; i < BUFFER_SIZE; i++) {
+        struct Measurement meas = databuffer[i];
+        
+        // Formatteer de meetgegevens als POST-data
+        int post_data_length = snprintf(NULL, 0, "api_key=%s&temperature=%.2f&pressure=%.2f&humidity=%.2f&timestamp=%u",
+                                        api_key, meas.temperature, meas.pressure, meas.humidity, meas.timestamp) + 1;
+        char* buff_post_data = (char*) calloc(post_data_length, sizeof(char));
+        snprintf(buff_post_data, post_data_length, "api_key=%s&temperature=%.2f&pressure=%.2f&humidity=%.2f&timestamp=%u",
+                 api_key, meas.temperature, meas.pressure, meas.humidity, meas.timestamp);
+
+        // Verzend de POST-data via de ESP-module
+        int content_length = snprintf(NULL, 0, "Content-Length: %d\r\n", post_data_length) + 1;
+        char* buff_content = (char*) calloc(content_length, sizeof(char));
+        snprintf(buff_content, content_length, "Content-Length: %d\r\n", post_data_length);
+
+        int request_length = snprintf(NULL, 0, "POST /Request_data_ESP/post-data.php HTTP/1.1\r\n"
+                                          "Host: 172.20.10.10\r\n"
+                                          "Content-Type: application/x-www-form-urlencoded\r\n"
+                                          "%s\r\n%s\r\n", buff_content, buff_post_data) + 1;
+        char* buff_request = (char*) calloc(request_length, sizeof(char));
+        snprintf(buff_request, request_length, "POST /Request_data_ESP/post-data.php HTTP/1.1\r\n"
+                                              "Host: 172.20.10.10\r\n"
+                                              "Content-Type: application/x-www-form-urlencoded\r\n"
+                                              "%s\r\n%s\r\n", buff_content, buff_post_data);
+
+        int sendData_length = snprintf(NULL, 0, "AT+CIPSEND=%d\r\n", request_length) + 1;
+        char* buff_data_send = (char*) calloc(sendData_length, sizeof(char));
+        snprintf(buff_data_send, sendData_length, "AT+CIPSEND=%d\r\n", request_length);
+
+        // Verstuur de lengte van de POST data
+        print_uart(buff_data_send);
+        k_sleep(K_MSEC(2000));
+
+        // Verstuur de daadwerkelijke POST data
+        print_uart(buff_request);
+        k_sleep(K_MSEC(2000));
+
+        // Free de geheugenbuffers
+        free(buff_post_data);
+        free(buff_content);
+        free(buff_request);
+        free(buff_data_send);
+    }
+
+    print_uart("AT+CIPCLOSE\r\n"); // Sluit de verbinding na het versturen van de gegevens
+    k_sleep(K_MSEC(2000));
+}
+
+///////////////////////////////////einde code voor het buffer gedeelte////////////////////////////////////////////////
 
 static const struct device *get_bme280_device(void)
 {
@@ -112,7 +191,11 @@ void esp(void)
 		free(buff_request);
 		free(buff_data_send);
 
-		k_sleep(K_MSEC(2000));
+
+		// Verstuur de gebufferde data
+		send_buffered_data();
+
+		k_sleep(K_MSEC(60000));
 	}
 	print_uart("AT+CIPCLOSE\r\n"); //After program end connection
 }
@@ -129,43 +212,18 @@ void sensor(void)
 		sensor_channel_get(dev, SENSOR_CHAN_PRESS, &press);
 		sensor_channel_get(dev, SENSOR_CHAN_HUMIDITY, &hum);
 
-		temperature = temp.val1;
-		pressure = press.val1;
-		humidity = hum.val1;
+		temperature = temp.val1 + temp.val2 / 1000000.0;  
+		pressure = press.val1 + press.val2 / 1000000.0;
+		humidity = hum.val1 + hum.val2 / 1000000.0;
 
-		// char buf[50];  // Buffer om de string op te slaan
-    	// //Maak de string en sla deze op in buf
-    	// int len = snprintf(buf, 50, 
-        //                "temp: %d.%06d; press: %d.%06d; humidity: %d.%06d\n",
-        //                temp.val1, temp.val2, 
-        //                press.val1, press.val2, 
-        //                humidity.val1, humidity.val2);
-		// //Controleer of snprintf succesvol was
-    	// if (len > 0 && len < 50) {
-        // print_uart(buf);  // Stuur de geformatteerde string via UART
-    	// } 	
+		// Huidige tijd verkrijgen in milliseconden (of vervang door een RTC tijd indien beschikbaar)
+		uint32_t current_time = k_uptime_get() / 1000;  // Tijd in seconden
 
+		// Voeg de meetwaarden toe aan de buffer
+		add_measurement(temperature, pressure, humidity, current_time);
 
-		// printk("temp: %d.%06d; press: %d.%06d; humidity: %d.%06d\n",
-		//       temp.val1, temp.val2, press.val1, press.val2,
-		//       humidity.val1, humidity.val2);
-
-	// check_esp_connection(); // check of er verbinding is met de esp 
-	// send_to_esp(temp.val1, press.val1, humidity.val1);
-	// send_buffered_data();
-	// buffer_data(temp.val1, press.val1, humidity.val1);
-
-
-    //     if (temp.val1 >= 22 && temp.val1 < 25 ) {
-    //         temp_buiten = true;
-	// 		print_uart("temp tussen 22 en 25\n");
-
-    //     } 
-	// 	else {
-    //         temp_buiten = false;
-	// 		print_uart("temp buiten 22 en 25\n");
-    //     }
-		k_sleep(K_MSEC(1000));
+	
+		k_sleep(K_MSEC(60000));
 	}
 }
 
