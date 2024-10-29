@@ -1,31 +1,20 @@
-// /*
-//  * Copyright (c) 2017 Linaro Limited
-//  *
-//  * SPDX-License-Identifier: Apache-2.0
-//  */
+/*
+ * Copyright (c) 2017 Linaro Limited
+ *	Project group - A
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-// #include <zephyr/kernel.h>
-// #include <zephyr/device.h>
-// #include <zephyr/drivers/uart.h>
 #include "Weerstation.h"
-#include <string.h>
-#include <stdlib.h>
 
-#define STACKSIZE 1024
-#define PRIORITY 7
-
-#define UART_DEVICE_NODE DT_NODELABEL(usart1) //Define the uart from DT
-
-static const struct device *const uart_dev = DEVICE_DT_GET(UART_DEVICE_NODE); //Store in in variable uart_dev
+/*
+	Sync measurements values
+*/
 
 volatile int temperature;
 volatile int humidity;
 volatile int pressure;
-//volatile const char* timestamp = "24-10-2024";
 
-
-/////////////////////////////////code voor het buffer gedeelte//////////////////////////////////////////////////
-#define BUFFER_SIZE 200  // Voor 24 uur bij 1 meting per minuut
+static const struct device *const uart_dev = DEVICE_DT_GET(UART_DEVICE_NODE); //Store in in variable uart_dev
 
 //Function to send characters over UART
 void print_uart(char *buf)
@@ -37,11 +26,12 @@ void print_uart(char *buf)
 	}
 }
 
+/////////////////////////////////code voor het buffer gedeelte//////////////////////////////////////////////////
+
 struct Measurement {
     int temperature;
     int pressure;
     int humidity;
-    //const char* timestamp;  // Voor het opslaan van het tijdstip
 };
 
 struct Measurement databuffer[BUFFER_SIZE];
@@ -52,7 +42,6 @@ void add_measurement(int temp, int press, int hum) {
     databuffer[buffer_index].temperature = temp;
     databuffer[buffer_index].pressure = press;
     databuffer[buffer_index].humidity = hum;
-    //databuffer[buffer_index].timestamp = time;
     
     // Update de buffer index, en wrap rond als we het maximale aantal bereiken (ringbuffer)
     buffer_index = (buffer_index + 1) % BUFFER_SIZE;
@@ -117,6 +106,8 @@ void send_buffered_data(void) {
 
 ///////////////////////////////////einde code voor het buffer gedeelte////////////////////////////////////////////////
 
+
+//code init bme280
 static const struct device *get_bme280_device(void)
 {
 	const struct device *const dev = DEVICE_DT_GET_ANY(bosch_bme280);
@@ -138,6 +129,8 @@ static const struct device *get_bme280_device(void)
 	return dev;
 }
 
+
+//ESP thread
 void esp(void)
 {
 	const char* api_key = "ESPIsAFunDevice12345"; //API key extra protection
@@ -180,7 +173,6 @@ void esp(void)
 		snprintf(buff_data_send, sendData_length, "AT+CIPSEND=%d\r\n", request_length); //store the message in buffer
 
 		// print_uart("AT+CWJAP=\"iPhone van Mike\",'\"wiskunde01\r\n");
-		// k_sleep(K_MSEC(10000));
 		k_sleep(K_MSEC(2000));
 
 		print_uart(buff_data_send); //First send the length of receiving message to ESP
@@ -196,11 +188,12 @@ void esp(void)
 
 		k_sleep(K_MSEC(2000));
 
-		send_buffered_data();
+		//send_buffered_data();
 	}
 	print_uart("AT+CIPCLOSE\r\n"); //After program end connection
 }
 
+//sensor thread
 void sensor(void)
 {
 	const struct device *dev = get_bme280_device();
@@ -223,17 +216,14 @@ void sensor(void)
 		pressure = press.val1;
 		humidity = hum.val1;
 
-		// Huidige tijd verkrijgen in milliseconden (of vervang door een RTC tijd indien beschikbaar)
-		// uint32_t current_time = k_uptime_get() / 1000;  // Tijd in seconden
-
 		// Voeg de meetwaarden toe aan de buffer
 		//add_measurement(temperature, pressure, humidity);
 
-	
 		k_sleep(K_MSEC(2000));
 	}
 }
 
+//Thread defines (ESP & BME280)
 K_THREAD_DEFINE(sensor_id, STACKSIZE, sensor, NULL, NULL, NULL,
 		PRIORITY, 0, 0);
 K_THREAD_DEFINE(esp_id, STACKSIZE, esp, NULL, NULL, NULL,

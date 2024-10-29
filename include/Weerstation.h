@@ -1,5 +1,3 @@
-
-
 #ifndef WEERSTATION_H
 #define WEERSTATION_H
 
@@ -13,15 +11,12 @@
 #include <zephyr/device.h>
 #include <zephyr/drivers/uart.h>
 #include <string.h>
+#include <stdlib.h>
 
-
-
-
-//alle uart defines
-//#define UART_DEVICE_NODE DT_CHOSEN(zephyr_shell_uart)
-//#define UART_DEVICE_NODE DT_NODELABEL(usart1)
-//#define MSG_SIZE 200
-
-
+//defines for system
+#define STACKSIZE 1024
+#define PRIORITY 7
+#define UART_DEVICE_NODE DT_NODELABEL(usart1) //Define the uart from DT
+#define BUFFER_SIZE 200  // Voor 24 uur bij 1 meting per minuut
 
 #endif // WEERSTATION_H
